@@ -16,24 +16,28 @@
     state: present
     update_cache: true
 
-- name: Add OMV gpg signing key
-  ansible.builtin.apt_key:
-    url: https://packages.openmediavault.org/public/archive.key
+- name: Add OMV repository to apt sources list
+  ansible.builtin.deb822_repository:
+    name: openmediavault
+    types: [deb]
+    components: main
+    suites: "{{ omv_version }}"
+    architectures: "{{ omv_arch }}"
+    signed_by: https://packages.openmediavault.org/public/archive.key
     state: present
+    uris: https://packages.openmediavault.org/public
 
-- name: Add OMV package repository
-  ansible.builtin.apt_repository:
-    repo: deb https://packages.openmediavault.org/public {{ omv.version }} main
-    state: present
-    filename: openmediavault
+- name: Update apt cache after adding OMV repo
+  ansible.builtin.apt:
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Install openmediavault package
   ansible.builtin.apt:
     name: openmediavault
     install_recommends: false
     allow_downgrade: true
-    state: latest
+    state: present
     update_cache: true
 
 # this command is needed to initialize the system
@@ -50,4 +54,4 @@
     - ansible
     - awaal
 
-#sudo wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash
+# sudo wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash

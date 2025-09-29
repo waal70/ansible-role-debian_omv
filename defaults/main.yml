@@ -1,6 +1,8 @@
 ---
 # defaults file for debian_omv
 # version of OpenMediaVault
-omv_version: sandworm
+# synchrony is not yet GA, so install will most likely fail
+omv_version: synchrony
+# omv_version: sandworm
 omv_first_install: true
 omv_arch: arm64
