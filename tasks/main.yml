@@ -76,7 +76,9 @@
 #   when: omv_first_install
 #   changed_when: true
 #
-
+# remove openmediavualt.sources
+# run apt-update
+# also, run omv-salt deploy run apt
 # - name: After install, make sure we can still ssh to the machine
 #   ansible.builtin.user:
 #     name: "{{ item }}"
